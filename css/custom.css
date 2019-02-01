@@ -1,0 +1,159 @@
+body{
+    font-family: 'Indie Flower', cursive;
+    /*background-color: #0f0f0f;*/
+    /*color: #0f0f0f;*/
+    color: white;
+    font-size: 200%;
+}
+
+.bgvid {
+    position: fixed;
+    opacity: 1;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+.formulaire{
+    margin-top: 350px;
+}
+#search, #submit{
+    height: 50px;
+    font-size: 20px;
+}
+#submit{
+    margin:0;
+}
+
+.titleSearch {
+    font-size: 500%;
+}
+.btn {
+    margin-top: 5%;
+}
+
+.mapTuile, .musicTuile{
+    min-height: 71.5vh !important;
+}
+.map{
+    width: 100%;
+    height: 60vh;
+    padding: 20px 20px 0px 20px;
+    opacity: 0.4;
+    border-radius: 10px !important;
+}
+.map:hover{
+    opacity: 1;
+}
+.music{
+    border-radius: 10px;
+    min-width: 95%;
+    min-height: 95%;
+}
+.tuile{
+    min-height: 35vh;
+    border-radius: 10px;
+    background-color: rgba(0,0,0,0.4);
+    line-height: 1.1;
+}
+.liLeft{
+    margin-left: auto;
+    position: relative;
+}
+.hover{
+    padding-bottom: 10px;
+}
+.hover:hover {
+    cursor: pointer;
+    -ms-transform: scale(1.15,1.15);
+    -webkit-transform: scale(1.15,1.15);
+    transform: scale(1.15,1.15);
+    transition-duration: 1000ms;
+}
+
+.iconTop{
+    font-size: 80px;
+    margin-top: 5px;
+}
+
+
+li {
+    list-style: none;
+}
+
+.queryDate{
+    font-size: 55%;
+}
+
+.checkbox{
+    font-size: 15px;
+}
+.darkskyLink{
+    margin-top: 0 !important;
+    font-size: 15px;
+    text-decoration: none;
+    color: white;
+}
+
+#newSearch, #newSubmit{
+    height: 50px;
+    font-size: 20px;
+}
+#newSubmit{
+    margin:0;
+}
+/* ########################### Média Queries ########################### */
+
+/* Pager?! WTF!! */
+@media only screen and (min-width : 0px) and (max-width: 319px) {
+    .formulaire {
+        margin-top: 150px;
+    }
+
+    .titleSearch {
+        font-size: 200%;
+    }
+}
+/* Telephone */
+@media only screen and (min-width : 320px) and (max-width: 479px) {
+    .formulaire{
+        margin-top: 180px;
+    }
+    .titleSearch{
+        font-size: 250%;
+    }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) and (max-width: 767px){
+    .formulaire{
+        margin-top: 250px;
+    }
+    .titleSearch{
+        font-size: 350%;
+    }
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) and (max-width: 991px) {
+    .formulaire{
+        margin-top: 350px;
+    }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) and (max-width: 1199px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+
+}
