@@ -14,9 +14,9 @@
             <?php
             if (isset($_GET['msg']) && !empty($_GET['msg'])) {
                 if ($_GET['msg'] == 'badCity') {
-                    echo '<h3 class="h1 text-danger">Aucun résultat pour la ville ' . $_GET['value'] . '</h3>';
+                    echo '<h3 class="h1 text-danger">No results found for the city : ' . $_GET['value'] . '</h3>';
                 } else if ($_GET['msg'] == 'null') {
-                    echo '<h3 class="h1 text-danger">Vous n\'avez rien entré dans le champ recherche</h3>';
+                    echo '<h3 class="h1 text-danger">Input field is empty</h3>';
                 }
             }
             ?>
