@@ -23,6 +23,6 @@
         </div>
     </div>
 </div>
-<video class="bgvid" playsinline autoplay muted loop poster="image/ciel.png">
-    <source src="image/sky.mp4" type="video/mp4">
+<video class="bgvid" playsinline autoplay muted loop poster="/image/ciel.png">
+    <source src="/image/sky.mp4" type="video/mp4">
 </video>

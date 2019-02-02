@@ -9,7 +9,7 @@ if (isset($_POST['submit']) || isset($_POST['search'])) {
         $post = trim(htmlentities(ucfirst($_POST['search'])));
         $_SESSION['search'] = $post;
         //Get datas from http request to openweathermap
-        $jsonMeteo = file_get_contents('http://api.openweathermap.org/data/2.5/weather?q=' . $_SESSION['search'] . '&&apikey=6c3ae00bfde9d0251218bf15b1e16c9a&units=metric&lang=fr');
+        $jsonMeteo = file_get_contents('https://api.openweathermap.org/data/2.5/weather?q=' . $_SESSION['search'] . '&&apikey=6c3ae00bfde9d0251218bf15b1e16c9a&units=metric&lang=fr');
         //if submit nothing corresponding from the cities list, reload index.php and get message
         if (!$jsonMeteo) {
             header("location: index.php?msg=badCity&value=" . $_SESSION['search']);
@@ -61,6 +61,7 @@ if (isset($_POST['submit']) || isset($_POST['search'])) {
             ];
             //Get datas from http request to deezer with keyword in parameter
             $dzReturn = file_get_contents('http://api.deezer.com/search?q=track:"' . $keyWord[$meteo['weather'][0]['main']] . '"');
+            $_SESSION['json_tracks'] = $dzReturn;
             $tracks = json_decode($dzReturn, true);
             //Random id track to play in deezer
             $track = $tracks['data'][array_rand($tracks['data'])]['id'];
@@ -128,43 +129,18 @@ if (isset($_POST['submit']) || isset($_POST['search'])) {
         <div class="row no-gutters justify-content-around">
             <div class="col-12 col-md-4">
                 <div class="row no-gutters">
-<!--                    <div class="col-12 text-center tuile mb-2 d-flex">-->
-<!--                        <div class="row no-gutters align-self-center mx-auto">-->
-<!--                            <div class="col-12">-->
-<!--                                <h1 class="text-center">Wind conditions</h1>-->
-<!--                            </div>-->
-<!--                            <div class="col-6">-->
-<!--                                <p class="hover">-->
-<!--                                    <i class="iconTop wi wi-wind-direction wi-rotate---><?php //echo $meteo['wind']['deg'] ?><!--"></i>-->
-<!--                                    --><?php //echo $meteo['wind']['deg'] ?><!-- deg-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                            <div class="col-6">-->
-<!--                                <p class="hover">-->
-<!--                                    <i class="iconTop wi wi-strong-wind"></i>-->
-<!--                                    --><?php //echo $meteo['wind']['speed'] ?><!-- km/h-->
-<!--                                </p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
                     <div class="col-12 text-center tuile musicTuile">
                         <?php
-                        //Video playlist for background
-                        $playlist = ['Clear' => 'clear.mp4',
-                            'Rain' => 'rain.mp4',
-                            'Drizzle' => 'rain.mp4',
-                            'Snow' => 'snow.mp4',
-                            'Clouds' => 'clouds.mp4',
-                            'Atmosphere' => 'atmosphere.mp4'];
                         // New version of deezer player
-                        $readerLink = 'http://www.deezer.com/plugins/player?format=square&autoplay=true&playlist=true&width=450&height=500&color=007feb&layout=dark&size=big&type=tracks&id=' . $track . '&app_id=326482';
-                        echo '<iframe class="music m-3" scrolling="no" allowTransparency="true"  src="' . $readerLink . '"></iframe>';
-                        //Background video
-                        echo '
-									<video class="bgvid" playsinline autoplay muted loop>
-										<source src="image/' . $playlist[$meteo['weather'][0]['main']] . '" type="video/mp4">
-									</video>';
+                        $readerLink = 'https://www.deezer.com/plugins/player?format=square&autoplay=true&playlist=true&width=450&height=600&color=007feb&layout=dark&size=big&type=tracks&id=' . $track . '&app_id=326482';
+                        echo '<iframe class="music mt-3 mx-3" scrolling="no" allowTransparency="true"  src="' . $readerLink . '"></iframe>';
                         ?>
+                        <a class="btn m-0 backward" href="#">
+                            <i class="fas fa-backward fa-1x fa-inverse"></i>
+                        </a>
+                        <a class="btn m-0 forward" href="#">
+                            <i class="fas fa-forward fa-1x fa-inverse"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -175,32 +151,39 @@ if (isset($_POST['submit']) || isset($_POST['search'])) {
                         $mapLink = 'https://maps.darksky.net/@precipitation_rate,' . $meteo['coord']['lat'] . ',' . $meteo['coord']['lon'] . ',5?embed=true&timeControl=false&fieldControl=false&defaultField=precipitation_rate';
                         echo '<iframe class="map" src="' . $mapLink . '" frameborder="0"></iframe>';
                         ?>
-                        <div class="col-12">
-                            <div class="col-md-1">
-                                <!--div class="checkbox">
-                                    <label for="opt1">
-                                        <input type="checkbox" name="opt1" id="opt1" value="">Carte
-                                    </label>
-                                </div-->
-                            </div>
-                            <div class="col-md-1">
-                                <!--div class="checkbox">
-                                    <label for="opt2">
-                                        <input type="checkbox" name="opt2" id="opt2" value="">Temps
-                                    </label>
-                                </div-->
-                            </div>
-                            <div class="col-md-8">
-                            </div>
-                            <div class="col-md-2">
-                                <a class="darkskyLink" href="https://darksky.net/poweredby/">Powered by Dark Sky</a>
-                            </div>
+                        <div class="col-md-2">
+                            <a class="darkskyLink" href="https://darksky.net/poweredby/">Powered by Dark Sky</a>
                         </div>
+                        <div class="w-100"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    </body>
-    </html>
+<?php
+//Video playlist for background
+$playlist = ['Clear' => 'clear.mp4',
+    'Rain' => 'rain.mp4',
+    'Drizzle' => 'rain.mp4',
+    'Snow' => 'snow.mp4',
+    'Clouds' => 'clouds.mp4',
+    'Atmosphere' => 'atmosphere.mp4'];
+?>
+    <video class="bgvid" playsinline autoplay muted loop>
+        <source src="image/<?php echo $playlist[$meteo['weather'][0]['main']]; ?>" type="video/mp4">
+    </video>
+    <script>
+        $(function () {
+            console.log('jquery is ready');
+            $('.forward, .backward').on('click', function (e) {
+                e.preventDefault();
+                console.log("forward clicked");
+                let json = <?php echo $_SESSION['json_tracks']; ?>;
+                let selectedTrack = json.data[Math.floor(json.data.length * Math.random())];
+                let iframePlayer = $('iframe.music');
+                let url = "http://www.deezer.com/plugins/player?format=square&autoplay=true&playlist=true&width=450&height=600&color=007feb&layout=dark&size=big&type=tracks&app_id=326482&id=" + selectedTrack.id;
+                iframePlayer.attr('src', url);
+            });
+        });
+    </script>
 <?php include "src/footer.php"; ?>

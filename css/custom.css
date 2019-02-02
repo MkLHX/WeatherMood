@@ -53,7 +53,7 @@ body{
 .music{
     border-radius: 10px;
     min-width: 95%;
-    min-height: 95%;
+    min-height: 90%;
 }
 .tuile{
     min-height: 35vh;
